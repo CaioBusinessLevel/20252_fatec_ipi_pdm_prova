@@ -9,9 +9,13 @@ const LembreteLista = (props) => {
         )
     }
     return (
-        <div>
-            <p>Aqui vão aparecer os lembretes...</p>
-        </div>
+        <ul className="list-group">
+    {lembretes.map(lembrete => (
+      <li key={lembrete.id} className="list-group-item">
+        {lembrete.descricao}
+      </li>
+    ))}
+  </ul>
     )
 
 }

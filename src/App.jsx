@@ -10,10 +10,20 @@ class App extends React.Component {
     this.setState({ novoLembrete : lembrete })
   }
 
+  // função será chamada quando o botão OK for clicado
+  salvarLembrete = () => {
+    console.log('Salvar Lembrete foi chamado!');
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      lembretes: []
+      lembretes: [
+          { id: 1, descricao: "Estudar para a prova" },
+          { id: 2, descricao: "Comprar pão" },
+          { id: 3, descricao: "Beber água" }
+       ],
+      novoLembrete: ""
     }
   }
   render(){
