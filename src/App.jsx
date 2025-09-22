@@ -10,10 +10,16 @@ class App extends React.Component {
     this.setState({ novoLembrete : lembrete })
   }
 
-  // função será chamada quando o botão OK for clicado
+  // função será chamada quando o botão Adicionar for clicado
   salvarLembrete = () => {
     console.log('Salvar Lembrete foi chamado!');
   }
+
+  // Remove um lembrete da lista pelo id
+  removerLembrete = (id) => {
+    const novaLista = this.state.lembretes.filter(lembrete => lembrete.id !== id);
+    this.setState({ lembretes: novaLista });
+}
 
   constructor(props) {
     super(props);
@@ -37,7 +43,10 @@ class App extends React.Component {
 
             <hr />
             
-            <LembreteLista lembretes={this.state.lembretes} />
+            <LembreteLista 
+              lembretes={this.state.lembretes}
+              onRemoverLembrete={this.removerLembrete}
+            />
           </div>
         </div>
       </div>

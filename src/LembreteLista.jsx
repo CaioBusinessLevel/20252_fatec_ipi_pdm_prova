@@ -11,8 +11,13 @@ const LembreteLista = (props) => {
     return (
         <ul className="list-group">
     {lembretes.map(lembrete => (
-      <li key={lembrete.id} className="list-group-item">
-        {lembrete.descricao}
+      <li key={lembrete.id} className="list-group-item justify-content-between align-items-center">
+      {lembrete.descricao}
+      <button 
+        className="btn btn-sm btn-outline-danger" 
+        onClick={() => { props.onRemoverLembrete(lembrete.id) }}>
+        <i className="fas fa-trash-alt"></i>
+      </button>
       </li>
     ))}
   </ul>
