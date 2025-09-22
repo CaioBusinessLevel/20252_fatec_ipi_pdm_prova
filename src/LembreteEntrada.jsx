@@ -3,7 +3,7 @@ const LembreteEntrada = (props) => {
       <div>
         <input type="text" className="form-control" placeholder="Digite seu novo lembrete" 
         onChange={ (evento) => { props.onLembreteAdicionado(evento.target.value)}}/>
-        <button className="btn btn-primary mt-2">Adicionar</button>
+        <button className="btn btn-primary mt-2" onClick={props.onSalvarLembrete}>Adicionar</button>
       </div>  
     );
 }

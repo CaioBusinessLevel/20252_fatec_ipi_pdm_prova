@@ -12,40 +12,103 @@ class App extends React.Component {
 
   // função será chamada quando o botão Adicionar for clicado
   salvarLembrete = () => {
-    console.log('Salvar Lembrete foi chamado!');
-  }
+  // 1   Cria um novo objeto de lembrete com ID e favorito
+  const novoLembreteObj = {
+    id: Date.now(), // ID único para o React
+    descricao: this.state.novoLembrete,
+    favorito: false // O lembrete começa como não favorito
+  };
+  
+  // 2 Cria uma nova lista, juntando a lista antiga com o novo lembrete
+  const novaListaLembretes = [...this.state.lembretes, novoLembreteObj];
+  
+  // 3 Atualiza o estado com a nova lista e limpa o campo de texto
+  this.setState({ 
+    lembretes: novaListaLembretes,
+    novoLembrete: "" 
+  });
+}
 
   // Remove um lembrete da lista pelo id
   removerLembrete = (id) => {
     const novaLista = this.state.lembretes.filter(lembrete => lembrete.id !== id);
     this.setState({ lembretes: novaLista });
 }
+  // Alterna entre exibir todos os lembretes ou apenas os favoritos
+  alternarFiltro = () => {
+    this.setState(estadoAnterior => ({
+    filtro: estadoAnterior.filtro === 'todos' ? 'favoritos' : 'todos'
+  }));
+}
+
+// Alterna o status de favorito de um lembrete
+favoritarLembrete = (id) => {
+  // Cria uma nova lista, mapeando e alternando o status 'favorito'
+  const novaLista = this.state.lembretes.map(lembrete => {
+    // Se a ID do lembrete for igual à ID passada, inverte o valor de 'favorito'
+    if (lembrete.id === id) {
+      return { ...lembrete, favorito: !lembrete.favorito };
+    }
+    return lembrete;
+  });
+  // Atualiza o estado com a nova lista
+  this.setState({ lembretes: novaLista });
+}
+
+favoritarLembrete = (id) => {
+    // Cria uma nova lista, mapeando e alternando o status 'favorito'
+    const novaLista = this.state.lembretes.map(lembrete => {
+      // Se a ID do lembrete for igual à ID passada, inverte o valor de 'favorito'
+      if (lembrete.id === id) {
+        return { ...lembrete, favorito: !lembrete.favorito };
+      }
+      return lembrete;
+    });
+    // Atualiza o estado com a nova lista
+    this.setState({ lembretes: novaLista });
+  }
 
   constructor(props) {
     super(props);
     this.state = {
       lembretes: [
-          { id: 1, descricao: "Estudar para a prova" },
-          { id: 2, descricao: "Comprar pão" },
-          { id: 3, descricao: "Beber água" }
+          { id: 1, descricao: "Estudar para a prova", favorito: false },
+          { id: 2, descricao: "Comprar pão", favorito: true },
+          { id: 3, descricao: "Beber água", favorito: false } 
        ],
-      novoLembrete: ""
+      novoLembrete: "",
+      filtro: 'todos'
     }
   }
   render(){
+
+    const lembretesFiltrados = this.state.filtro === 'todos'
+    ? this.state.lembretes
+    : this.state.lembretes.filter(lembrete => lembrete.favorito);
+
     return (
       <div className="container">
         <div className= "row">
           <div className="col-12">
             <h1 className="display-5 text-center">Lembretes</h1>
             <LembreteEntrada 
-            onLembreteAdicionado={this.adicionarLembrete} valorDoInput={this.state.novoLembrete}/>
+            onLembreteAdicionado={this.adicionarLembrete} 
+            valorDoInput={this.state.novoLembrete}
+            onSalvarLembrete={this.salvarLembrete}
+            />
+
+            <button 
+              className="btn btn-secondary mt-2 mb-3"
+              onClick={this.alternarFiltro}>
+              {this.state.filtro === 'todos' ? 'Exibir Apenas Favoritos' : 'Exibir Todos'}
+            </button>
 
             <hr />
             
             <LembreteLista 
-              lembretes={this.state.lembretes}
+              lembretes={lembretesFiltrados}
               onRemoverLembrete={this.removerLembrete}
+              onFavoritarLembrete={this.favoritarLembrete}
             />
           </div>
         </div>
