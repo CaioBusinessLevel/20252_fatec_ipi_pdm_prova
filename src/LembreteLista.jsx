@@ -1,8 +1,7 @@
-// lembrete lista.jsx
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const LembreteLista = (props) => {
-  const { lembretes, onRemoverLembrete, onFavoritarLembrete } = props;
-  
+const LembreteLista = ({ lembretes, onRemoverLembrete, onFavoritarLembrete }) => {
   if (lembretes.length === 0) {
     return(
       <div className="alert alert-info text-center">
@@ -33,6 +32,10 @@ const LembreteLista = (props) => {
       ))}
     </ul>
   )
-}
-
+};
+LembreteLista.propTypes = {
+  lembretes: PropTypes.array.isRequired,
+  onRemoverLembrete: PropTypes.func.isRequired,
+  onFavoritarLembrete: PropTypes.func.isRequired,
+};
 export default LembreteLista;
