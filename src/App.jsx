@@ -54,20 +54,6 @@ favoritarLembrete = (id) => {
   // Atualiza o estado com a nova lista
   this.setState({ lembretes: novaLista });
 }
-
-favoritarLembrete = (id) => {
-    // Cria uma nova lista, mapeando e alternando o status 'favorito'
-    const novaLista = this.state.lembretes.map(lembrete => {
-      // Se a ID do lembrete for igual à ID passada, inverte o valor de 'favorito'
-      if (lembrete.id === id) {
-        return { ...lembrete, favorito: !lembrete.favorito };
-      }
-      return lembrete;
-    });
-    // Atualiza o estado com a nova lista
-    this.setState({ lembretes: novaLista });
-  }
-
   constructor(props) {
     super(props);
     this.state = {
