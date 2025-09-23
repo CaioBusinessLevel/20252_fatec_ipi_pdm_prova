@@ -12,6 +12,12 @@ class App extends React.Component {
 
   // função será chamada quando o botão Adicionar for clicado
   salvarLembrete = () => {
+     // Verifique se o lembrete está vazio
+  if (this.state.novoLembrete.trim() === "") {
+    this.setState({ mensagemDeErro: "Insira a descrição do lembrete." });
+    return; // Sai da função para não salvar o lembrete 
+  }
+
   // 1   Cria um novo objeto de lembrete com ID e favorito
   const novoLembreteObj = {
     id: Date.now(), // ID único para o React
@@ -25,7 +31,8 @@ class App extends React.Component {
   // 3 Atualiza o estado com a nova lista e limpa o campo de texto
   this.setState({ 
     lembretes: novaListaLembretes,
-    novoLembrete: "" 
+    novoLembrete: "" ,
+    mensagemDeErro: null // Limpa a mensagem de erro
   });
 }
 
@@ -63,7 +70,8 @@ favoritarLembrete = (id) => {
           { id: 3, descricao: "Beber água", favorito: false } 
        ],
       novoLembrete: "",
-      filtro: 'todos'
+      filtro: 'todos',
+      mensagemDeErro: null
     }
   }
   render(){
@@ -74,8 +82,8 @@ favoritarLembrete = (id) => {
 
     return (
       <div className="container">
-        <div className= "row">
-          <div className="col-12">
+        <div className= "row justify-content-center">
+          <div className="col-12 colgit  ">
             <h1 className="display-5 text-center">Lembretes</h1>
             <LembreteEntrada 
             onLembreteAdicionado={this.adicionarLembrete} 
@@ -88,6 +96,12 @@ favoritarLembrete = (id) => {
               onClick={this.alternarFiltro}>
               {this.state.filtro === 'todos' ? 'Exibir Apenas Favoritos' : 'Exibir Todos'}
             </button>
+
+            {this.state.mensagemDeErro && (
+            <div className="alert alert-danger mt-2">
+            {this.state.mensagemDeErro}
+            </div>
+            )}
 
             <hr />
             
